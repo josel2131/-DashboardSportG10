@@ -63,6 +63,8 @@ export const deluser= (req,res) =>{
 
 };
 //Actualizar un usuario 
+// Se gerna 
+
 
 export const updatoneuser=(req,res) =>{
 const { id }= req.params;

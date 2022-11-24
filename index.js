@@ -23,7 +23,7 @@ router.get('/', (req,res)=> {
     res.send('Bienvenidos a NodeJs desde la Raiz');
 })
 
-//Para solicitar al usuario el ingreso de loggin y password  Ruta de login
+//Se configura para solicitar al usuario el ingreso de loggin y password  Ruta de login
 router.get('/login',(req,res)=>{
     res.send('Bienvenidos a mi modulo de Login ');
 })

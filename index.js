@@ -7,6 +7,7 @@ import pkg from 'colors';
 
 
 //Se definen las variables 
+//
 const colors = pkg;
 const app = express();
 app.use(cors());
@@ -20,7 +21,7 @@ app.use('/usuarios',router);
 
 //Se van a definir las rutas  req=requerimiento, res=respuesta
 router.get('/', (req,res)=> {
-    res.send('Bienvenidos a NodeJs desde la Raiz');
+    res.send('Bienvenidos a dashboardSport');
 })
 
 //Se configura para solicitar al usuario el ingreso de loggin y password  Ruta de login

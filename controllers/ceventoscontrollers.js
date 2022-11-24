@@ -62,4 +62,6 @@ export const upevent = (req, res) => {
     .catch((error) => res.json({ message: error}));
 };
 
+
+//Datos
 export default regevento ;

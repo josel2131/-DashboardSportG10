@@ -43,7 +43,7 @@ router.put('/upevent/:id',upevent);
 router.post('/reguser', regusuario);
 router.get('/shuser',showuser);
 router.get('/shuser/:id',showoneuser);
-router.delete('shuser/:id',deluser);
+router.delete('/shuser/:id',deluser);
 router.put('/upuser/:id',updatoneuser);
 
 

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 //Se importo la libreria que permitira encriptar los password en la base de datos
 import * as bcrypt from "bcrypt";
+//import { Valid } from '../vcorreo/estacorreobien.js'
 
 const userSchema= new mongoose.Schema({
     nameuser: {
@@ -18,7 +19,12 @@ correo: {
     type: String, 
     require: true,
     unique: true
-}
+},
+
+    emailVerified: {
+        type: Boolean,
+        default: false,
+    }
 
 },
 
@@ -29,33 +35,75 @@ correo: {
 
 );
 
-//el metodo Schema pre me guradara una funcion 
-userSchema.pre('updateOne', function(next){
-    const user= this
-
-    //Encriptar el usurio con el metodo bcrypt
-    //user.variable a encriptar, 10 numero de caracteres de encriptacion
-    //Esta funcion se ejecutara antes de ejecutar el modelo, tomando el campo password 
-    bcrypt.hash(user.password,10, (error,hash)  => {
-
-        //El metodo HAS es el que tiene el tema de encriptación. 
-        user.password= hash;
+/*
+userSchema.pre("save", async function (next) {
+    const user = this;
+    if (!user.isModified("password")) return next();
+    try {
+        const salt = await bcryptjs.genSalt(10);
+        user.password = await bcryptjs.hash(user.password, salt);
         next();
-    })
+    } catch (error) {
+        console.log(error);
+        throw new Error("Falló el hash de contraseña");
+    }
+});
+*/
+userSchema.methods.comparePassword = async function (password) {
+    return await  bcrypt.compareSync(password, usuario.password);
+};
 
-})
+
+
+
+
 
 userSchema.pre('save', function(next) {
-    const user = this
-    const salt = bcrypt.genSaltSync(12);
-    const hash = bcrypt.hashSync(user.password, salt);
-    user.password = hash;
-    next()
+const user = this
+const salt = bcrypt.genSaltSync(12);
+const hash = bcrypt.hashSync(user.password, salt);
+user.password = hash;
+next()
 });
-//Le estoy solicitando que me exporte una constante llamada usuario, dentro de la cual contengo el Schema
-//el Schema es la informacion que se almacena en la base de datos, este usuario sera imporado desde controlador
+/*, (error, hash) => {
+    user.password = hash
+    next()
+})*/
 
 
+
+
+
+
+
+userSchema.statics.login = login;
+
+function login(correo,password) {
+    console.log('el correo es :',correo);
+    console.log('el password es :',password);
+    if (!Valid(correo)) { throw new Error('correo es invalido');}
+    
+    else {   return this.findOne({ correo })
+        .then(usuario => {
+            console.log(usuario);
+          if (!usuario) {
+            throw new Error('El correo no corresponde');
+           
+        }
+         // if (!user.emailVerified) throw new Error('user is not verified');
+         console.log('El valor del password es:', password);
+          const isMatch = bcrypt.compareSync(password, usuario.password);
+          console.log('El valor de la comparación del password es:',isMatch);
+          if (isMatch) {return true}
+          else{return false};
+         // if (!isMatch) throw new Error('El password es incorrecto');
+         // if (!isMatch) return res.status(403).send({ success: false, message: 'Usuario no autorizado' });
+        
+        
+    
+    })}}
+  
+    
 
 export const usuario = mongoose.model("user",userSchema);
 export default usuario;

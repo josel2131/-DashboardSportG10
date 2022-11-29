@@ -1,6 +1,6 @@
 //Creamos nuestro modelo eventos 
 
-import mongoose, { trusted } from "mongoose";
+import mongoose, {trusted} from "mongoose";
 
 
 //TOdo lo que trabajare en mi base de datos esta dentro del parentesis 

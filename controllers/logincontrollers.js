@@ -1,24 +1,74 @@
 import bcrypt from 'bcrypt';
 import usuario from '../models/usuario.js';
-//const User = require('../models/usuario.js')
+import {generateToken} from '../configs/jwtfunciones.js'
+import dotenv from "dotenv";
+dotenv.config();
+import jwt from 'jsonwebtoken';
 
-export const login = (req,res) => {
-    if(!req.body.correo) return res.status(200).send({ success: false, error: 'No hay Correo en el body'});
-    if(!req.body.password) return res.status(200).send({ success: false, error: 'No hay Password en el body'});
-    /*
-   try {
-        usuario.body(req.body.password, req.body.correo )
-        .then(data => {
-            res.status(200).send({ success: true, data});
+//El async nos permite que se puedan conectar de manera sincrinica varias personas al servidor 
+//Sin el async solo se podria conectar una persona
 
-        }).catch(err => res.status(200).send ({success: true, error: err.message}))
+export const Login = async (req,res) => {
+    try {
+        const { correo, password } = req.body;
 
-    } catch(err) {
-        res.status(400).send({ success: false, error: err.message});
-    }*/
+        let user = await usuario.findOne({ correo });
+        if (!user)
+        return res.status(403).json({ error: "No existe este correo" });
+        const respuestaPassword = await  usuario.Login(correo, password )
+        
+        if (respuestaPassword){
+            //Generamos nuestro token JWT
+            const token = generateToken(usuario._id);
+            return res.json({ token });
+
+            //Se configura token en una cookie
+            res.cookie("token", token);
+
+            //return res.status(200).json({message: "usuario y contraseña correcta" });
+             // Generar el token JWT
+       
+       // generateRefreshToken(user.id, res);
+
+   //     return res.json({ token, expiresIn });
+        } else {
+        return res.status(403).json({message: "usuario y contraseña incorrecta" }); 
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Error de servidor" });
+    }
+
+
 }
 
-//Actuall
-
-
-export default login;
+export const loginjwt = async (req,res) => {
+    if ((req.body.correo == 'admin') && (req.body.password == '123456')){
+      const id = '63703e1f4bd191c9b4c6d816';
+       const payload = {
+           //{userid: usuario._id } se reemplaza por payload
+           userid: id
+       };
+      const token =  jwt.sign(payload, process.env.JWTPRIVATEKEY, {
+       expiresIn: '7d',
+   }, function(err, token) {
+       console.log(token);
+       res.json(token);
+   } );
+   
+      res.json({
+           message: '😎Autenticación  Exitosa🚀🚁🚀',
+           token: token
+       })
+       return token;
+    }else { 
+       res.json({
+           message: '😮Usuario y/o password son incorrectos.🤔'
+       })
+      
+    }
+   
+   }
+   
+export default Login;

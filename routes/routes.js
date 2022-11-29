@@ -6,10 +6,13 @@ import express from "express";
 
 
 //Importamos el controlador 
-import {regusuario, showuser, showoneuser,updatoneuser,deluser} from '../controllers/userscontroller.js';
+import {regusuario, showuser, showoneuser,upuser,deluser} from '../controllers/userscontroller.js';
 
 //Importamos el contralador de eventos 
 import {regevento, sheventos, shevent, delevent,upevent} from '../controllers/ceventoscontrollers.js';
+import { Login } from '../controllers/logincontrollers.js';
+import {db} from '../mongodb.js';
+
  
 
 //import mongoose from 'mongoose';
@@ -40,11 +43,13 @@ router.put('/upevent/:id',upevent);
 
 
 //Rutas del usuario
+router.post('/login', Login);
 router.post('/reguser', regusuario);
 router.get('/shuser',showuser);
 router.get('/shuser/:id',showoneuser);
 router.delete('/shuser/:id',deluser);
-router.put('/upuser/:id',updatoneuser);
+router.put('/upuser/:id',upuser);
+
 
 
 //Para adicionar texto (Ruta de adicion)

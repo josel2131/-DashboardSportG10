@@ -50,16 +50,16 @@ export const delevent = (req,res) => {
 
 //Actualizar un evento deportivo
 
-export const upevent = (req, res) => {
+export const upevent =  (req, res) => {
     const { id } = req.params;
-    const {fecha, equipo1, equipo2, marcador1, marcador2, tipoevento } = req.body;
+    const { fecha , equipo1, equipo2, marcador1, marcador2, tipoevento } = req.body;
 
     evento
     //los valores corresponden a los creados en el modelo de eventos 
     //Up date me permite actuliazar informacion 
-    .updateOne({ _id: id}, {$set:{fecha, equipo1, equipo2, marcador1, marcador2, tipoevento}})
+    .updateOne({ _id: id }, { $set: { fecha , equipo1, equipo2, marcador1, marcador2, tipoevento } })
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error}));
+    .catch((error) => res.json({ message: error }));
 };
 
 

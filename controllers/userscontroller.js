@@ -4,7 +4,7 @@
 //importamos desde la informacion del usuario en la carpeta que lo contiene
 //importamos el modelo
 import {usuario} from '../models/usuario.js';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 
 
@@ -62,24 +62,15 @@ export const deluser= (req,res) =>{
     .catch((error)=> res.json ({message: error}));
 
 };
-//Actualizar un usuario 
-// Se gerna 
+//Actualizar un usuario registrado 
 
-
-export const updatoneuser=(req,res) =>{
+export const upuser= (req,res) => {
 const { id }= req.params;
-const { nameuse, password, correo }= req.body;
-//bcrypt.hash(usuario.password,10);
-    
-
+const { nameuse, password, correo } = req.body;
 usuario
-
-.updateOne({_id: id}, {$set:{nameuse,password,correo}})
-.then((data) => res.json(data))
-.catch((error) => res.json({message: error }));
-
-
+    .updateOne({_id: id}, {$set:{nameuse,password,correo } })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({message: error }));
 };
 
-
-
+export default regusuario;

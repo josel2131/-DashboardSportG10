@@ -1,10 +1,11 @@
 //Creamos nuestro modelo eventos 
 
 import mongoose, {trusted} from "mongoose";
-
+//import mongoose from "mongoose";
 
 //TOdo lo que trabajare en mi base de datos esta dentro del parentesis 
-const eventosSchema = new mongoose.Schema({
+const eventoSchema = new mongoose.Schema(
+    {
     fecha: {
     type: Date, 
     require: true
@@ -40,7 +41,7 @@ tipoevento:{
 
 );
 
-export const evento =mongoose.model("ceventos", eventosSchema);
+export const evento = mongoose.model("ceventos", eventoSchema);
 export default evento;
 //Constante a importar el modelo del evento 
 //const meventos = mongoose.model;

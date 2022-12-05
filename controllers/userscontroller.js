@@ -21,12 +21,22 @@ import * as bcrypt from 'bcrypt';
 
 
 //Otra manera de enviar información
+
+export const regusuario = (req, res) => {
+    const user = usuario(req.body);
+    user
+      .save()
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  };
+
+  /*
 export const regusuario = async (req,res) =>{
     res.send("Archivo agregado con exito")
     console.log(req.body)
     await usuario.create({nameuser: req.body.nameuser, password: req.body.password, correo:req.body.correo});
 
-};
+};*/
 
 //Mostrar todos los usuarios 
 export const showuser = (req,res) =>{

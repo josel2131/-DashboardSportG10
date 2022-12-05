@@ -15,7 +15,7 @@ export const Login = async (req,res) => {
         let user = await usuario.findOne({ correo });
         if (!user)
         return res.status(403).json({ error: "No existe este correo" });
-        const respuestaPassword = await  usuario.Login(correo, password )
+        const respuestaPassword = await  usuario.login(correo, password )
         
         if (respuestaPassword){
             //Generamos nuestro token JWT
@@ -58,13 +58,13 @@ export const loginjwt = async (req,res) => {
    } );
    
       res.json({
-           message: '😎Autenticación  Exitosa🚀🚁🚀',
+           message: 'Autenticación  Exitosa',
            token: token
        })
        return token;
     }else { 
        res.json({
-           message: '😮Usuario y/o password son incorrectos.🤔'
+           message: 'Usuario y/o password son incorrectos.'
        })
       
     }

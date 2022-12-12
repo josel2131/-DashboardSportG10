@@ -4,6 +4,7 @@
 import {c_uri} from '../conectarbd.js';
 import express from "express";
 
+
 //Importamos el controlador 
 import {regusuario, showuser, showoneuser,upuser,deluser} from '../controllers/userscontroller.js';
 
@@ -12,8 +13,6 @@ import {regevento, sheventos, shevent, delevent,upevent} from '../controllers/ce
 import { Login } from '../controllers/logincontrollers.js';
 import {db} from '../mongodb.js';
 
-//Importar funcion de requerir token
-import {requireToken} from '../midleware/auth.js'
  
 
 //import mongoose from 'mongoose';
@@ -37,7 +36,7 @@ router.get('/login',(req,res)=>{
 
 //Rutas para mis eventos deportivos 
 router.post('/regevento', regevento);
-router.get ('/sheventos',requireToken, sheventos);
+router.get ('/sheventos',sheventos);
 router.get('/shevent/:id', shevent);
 router.delete('/delevent/:id',delevent);
 router.put('/upevent/:id',upevent);
@@ -46,7 +45,7 @@ router.put('/upevent/:id',upevent);
 //Rutas del usuario
 router.post('/login', Login);
 router.post('/reguser', regusuario);
-router.get('/shuser',requireToken, showuser);
+router.get('/shuser',showuser);
 router.get('/shuser/:id',showoneuser);
 router.delete('/shuser/:id',deluser);
 router.put('/upuser/:id',upuser);
